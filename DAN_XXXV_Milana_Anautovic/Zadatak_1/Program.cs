@@ -12,31 +12,47 @@ namespace Zadatak_1
         public static object l = new object();
         static int number;
         static int Guess;
-
+        public static Random random = new Random();
+        /// <summary>
+        /// Method for guessing numbers
+        /// </summary>
+        /// <param name="t"></param>
         public static void GuessTheNumber(Thread t)
         {
-            Thread.Sleep(100);
+
             while (Guess != number)
             {
-                Random random = new Random();
-                Guess = random.Next(1, 101);
-
-                Console.WriteLine(t.Name + " chose the number " + Guess + ". Wrong chois. Try again");
-
-                
-            }
-            lock (l)
-            {
-                while (Guess == number)
+                lock (l)
                 {
-                    Console.WriteLine("Well done " + t.Name + "! The answer was " + number);
-                    Console.ReadLine();
+                    Guess = random.Next(1, 101);
+                    if ((Guess % 2 == 0 && number % 2 == 0) || (Guess % 2 == 1 && number % 2 == 1))
+                    {
+                        Console.WriteLine(t.Name + " chose the number " + Guess + ". Wrong chois. The participant hit parity.");
+                    }
+
+                    else
+                    {
+                        Console.WriteLine(t.Name + " chose the number " + Guess + ". Wrong chois.");
+                    }
+
+
+                    while (Guess == number)
+                    {
+
+                        Console.WriteLine("Well done " + t.Name + "! The requested number is " + number);
+                        Console.ReadLine();
+                    }
                 }
+                Thread.Sleep(100);
             }
         }
 
 
+
         public static int numUsers;
+        /// <summary>
+        /// Method for creating threads
+        /// </summary>
         public static void ThreadGenerator()
         {
             Thread[] thr = new Thread[numUsers];
@@ -54,25 +70,26 @@ namespace Zadatak_1
                 thr[i] = t;
 
             }
-            
+
             foreach (var i in thr) i.Start();
             Console.ReadLine();
-            
+
         }
 
         static void Main(string[] args)
         {
 
             Console.WriteLine("***WELCOME***\n");
-            Console.WriteLine("Enter the number of quiz participants");
+            Console.WriteLine("Enter the number of game participants");
             numUsers = AuxiliaryClass.ReadInteger();
             Console.WriteLine("Enter the number to quess");
             number = AuxiliaryClass.ReadInteger();
+            Console.WriteLine("The user has selected the number of participants. That number is " + numUsers + "\nThe number to guess was selected.\n");
 
             Thread tg = new Thread(() => ThreadGenerator());
             tg.Start();
             tg.Join();
-            
+
         }
     }
 }
