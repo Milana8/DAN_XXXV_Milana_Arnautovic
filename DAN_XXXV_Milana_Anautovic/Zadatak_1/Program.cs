@@ -86,7 +86,7 @@ namespace Zadatak_1
             Console.WriteLine("***WELCOME***\n");
             do
             {
-                Console.Write("Enter the number  (1 to 1000): ");
+                Console.Write("Enter the number of participants  (1 to 1000): ");
                 string numU = Console.ReadLine();
                 numBool = int.TryParse(numU, out numUsers);
                 if (numUsers < 1 || numUsers > 1000)
@@ -109,7 +109,8 @@ namespace Zadatak_1
                    guessBool = false;
                 }
             } while (!guessBool);
-            
+            Console.WriteLine("The user has entered the number of participants.The number of participants is " + numUsers + ".The number to guess was chosen");
+
 
             Thread tg = new Thread(() => ThreadGenerator()); //creating thread
             tg.Name = "Thread_Generator"; //naming threads
