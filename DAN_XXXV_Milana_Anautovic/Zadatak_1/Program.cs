@@ -82,17 +82,27 @@ namespace Zadatak_1
 
         static void Main(string[] args)
         {
-            bool guessBool;
+            bool guessBool,numBool;
             Console.WriteLine("***WELCOME***\n");
-            Console.WriteLine("Enter the number of game participants");
-            numUsers = AuxiliaryClass.ReadInteger();
+            do
+            {
+                Console.Write("Enter the number  (1 to 1000): ");
+                string numU = Console.ReadLine();
+                numBool = int.TryParse(numU, out numUsers);
+                if (numUsers < 1 || numUsers > 1000)
+                {
+
+                    Console.WriteLine("Please enter a number between 1 and 1000.");
+                    numBool = false;
+                }
+            } while (!numBool);
+
             do
             {
                 Console.Write("Enter the number needed to guess (1 to 100): ");
                 string guessNumber = Console.ReadLine();
-               
                 guessBool = int.TryParse(guessNumber, out number);
-                if (number < 1 || number >= 100)
+                if (number < 1 || number > 100)
                 {
                     
                    Console.WriteLine("Please enter a number between 1 and 100.");
